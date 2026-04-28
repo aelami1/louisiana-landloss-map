@@ -50,7 +50,68 @@
     }).addTo(map);
 
     // Example marker (you will replace later with real data)
+    // Land loss layer
+    var landlosslayer = L.geoJSON(null, {
+        style: {
+            color: "red",
+            weight: 3,
+            fillColor: "red"
+                fillOpacity: 0.5
+    },
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup(
+                "<b>" + feature.properties.name + "</b><br>" +
+                "Risk: " + feature.properties.risk
+                );
+        }
+    }).addTo(map);
+
     fetch('data/landloss.geojson')
+        .then(response => response.json())
+        .then(data => landLossLayer.addData(data));
+
+    //Restoration layer
+    var restorationLayer = L.geojson(null, {
+        style: {
+            color: "green",
+            weight: 3,
+            fillColor: "green",
+            fillOpacity: 0.5
+        },
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup(
+                "<b>" + feature.properties.name + "</b><br>" +
+                "Type: " + feature.properties.type + "<br>" +
+                "Status: " + feature.properties.status
+                );
+        }
+    });
+
+    fetch('data/restoration.geojson')
+        .then(response => response.json())
+        .then(data => restorationLayer.addData(data));
+
+    // Flood risk layer
+    var floodLayer = L.geoJSON(null, {
+        style: {
+            color: "blue",
+            weight: 3,
+            fillColor: "blue",
+            fillOpacity: 0.35
+        },
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup(
+                "<b>" + feature.properties.name + "</b><br>" +
+                "Risk: " + feature.properties.risk + "<br>" +
+                "Concern: " + feature.properties.concern
+                );
+        }
+    ]);
+
+    fetch('data/flood.geojson')
+        .then(response => response.json())
+        .then(data => floodLayer.addData(data));
+    
     .then(response => response.json())
     .then(data => {
         L.geoJSON(data, {
