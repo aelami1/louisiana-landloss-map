@@ -50,9 +50,22 @@
     }).addTo(map);
 
     // Example marker (you will replace later with real data)
-    var marker = L.marker([29.95, -90.07]).addTo(map);
-
-    marker.bindPopup("<b>New Orleans Area</b><br>Example coastal region.").openPopup();
+    fetch('data/landloss.geojson')
+    .then(response => response.json())
+    .then(data => {
+        L.geoJSON(data, {
+            style: {
+                color: "red",
+                fillColor: "orange",
+                fillOpacity: 0.5
+            },
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup(
+                    "<b>" + feature.properties.name + "</b><br>Risk: " + feature.properties.risk
+                    );
+            }
+        }).addTo(map);
+    });
 
 </script>
 
