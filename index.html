@@ -111,7 +111,6 @@
     fetch('data/flood.geojson')
         .then(response => response.json())
         .then(data => floodLayer.addData(data));
-    
     .then(response => response.json())
     .then(data => {
         L.geoJSON(data, {
