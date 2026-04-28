@@ -1,0 +1,22 @@
+{
+  "type": "FeatureCollection"'
+    "features": [
+      {
+        "type": "Feature"'
+          "properties": {
+            "name": "Coastal Land Loss Area",
+            "risk": "High"
+          },
+            "geometry": {
+              "type": "Polygon",
+              "coordinates": [[
+                [-90.5, 29.5],
+                [-90.0, 29.5],
+                [-90.0, 29.0],
+                [-90.5, 29.0],
+                [-90.5, 29.5]
+              ]]
+            }
+        }
+     ]
+  }
