@@ -2,7 +2,7 @@
   "type": "FeatureCollection",
     "features": [
       {
-        "type": "Feature"'
+        "type": "Feature",
           "properties": {
             "name": "Coastal Land Loss Area",
             "risk": "High"
