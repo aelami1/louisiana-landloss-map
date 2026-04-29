@@ -1,12 +1,14 @@
 {
-"type": "Feature",
+  "type": "FeatureCollection",
+"features": [
+{
 "properties": {
 "name": "Flood Risk Zone",
 "risk": "Moderate to High",
 "concern": "Storm surge and coastal flooding"
 },
 "geometry": {
-"type": "polygon",
+"type": "Polygon",
 "coordinates": [[
 [-90.8, 30.1],
 [-89.7, 30.1],
