@@ -107,7 +107,7 @@
         color: "purple",
         weight: 4,
         fillColor: "purple",
-        fillOpacity: 0.7
+        fillOpacity: 1.7
       },
       onEachFeature: function(feature, layer) {
         layer.bindPopup(
@@ -125,26 +125,31 @@
     var noaaLayer = L.tileLayer(
   'https://services2.arcgis.com/C8EMgrsFcRFL6LrL/arcgis/rest/services/South_Louisiana_Land_Loss_1932_to_2010/MapServer/tile/{z}/{y}/{x}',
   {
-    opacity: 0.7,
+    opacity: 1.7,
     attribution: 'NOAA / USGS Land Loss'
   }
 ).addTo(map);
+    var restorationLayer = L.tileLayer(
+  'https://cimsgeo3.coastal.louisiana.gov/arcgis/rest/services/CPRA_Projects/MapServer/tile/{z}/{y}/{x}',
+  {
+    opacity: 1.7,
+    attribution: 'CPRA Restoration Projects'
+  }
+);
     var futureLandChangeLayer = L.tileLayer.wms(
   "https://cimsgeo3.coastal.louisiana.gov/arcgis/services/mp_viewer_2017/Land_Change/MapServer/WMSServer",
   {
     layers: "0",
     format: "image/png",
     transparent: true,
-    opacity: 0.9,
+    opacity: 1.9,
     attribution: "Louisiana Coastal Protection & Restoration Authority"
   }
 );
     var overlayMaps = {
-  "Land Loss (Red)": landLossLayer,
-  "Restoration (Green)": restorationLayer,
-  "Flood Risk (Purple)": floodLayer,
   "NOAA Land Loss Raster": noaaLayer,
-  "Future Land Change": futureLandChangeLayer
+  "Future Land Change (CPRA)": futureLandChangeLayer,
+  "Restoration Projects": restorationLayer
 };
 
 L.control.layers(null, overlayMaps).addTo(map);
