@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Louisiana Land Loss Map</title>
+  <title>Land Loss in Louisiana & Restoration Efforts</title>
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <!-- ESRI Leaflet (for FEMA layer) -->
+  <script src="https://unpkg.com/esri-leaflet/dist/esri-leaflet.js"></script>
 
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
+    body { margin:0; font-family: Arial; }
+    #map { height: 90vh; }
 
     h1 {
       text-align: center;
@@ -21,48 +24,37 @@
 
     p {
       text-align: center;
-      margin-top: -5px;
+      margin: 0;
+      margin-bottom: 10px;
     }
 
-    #map {
-      height: 85vh;
-      width: 100%;
-    }
     .legend {
-  background: white;
-  padding: 10px;
-  line-height: 18px;
-  color: #333;
-  border-radius: 5px;
-}
-
-.legend i {
-  width: 18px;
-  height: 18px;
-  float: left;
-  margin-right: 8px;
-  opacity: 0.7;
-}
+      background: white;
+      padding: 10px;
+      line-height: 1.5em;
+    }
   </style>
 </head>
 
 <body>
 
-  <h1>Land Loss in Louisiana & Restoration Efforts</h1>
-  <p>Explore coastal changes and environmental risk</p>
+<h1>Land Loss in Louisiana & Restoration Efforts</h1>
+<p>Explore coastal changes and environmental risk</p>
 
-  <div id="map"></div>
+<div id="map"></div>
 
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/esri-leaflet/dist/esri-leaflet.js"></script>
+<script>
 
-  <script>
-    var map = L.map('map').setView([30.0, -90.5], 7);
+var map = L.map('map').setView([29.5, -90.5], 7);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-    var noaaLayer = L.tileLayer(
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+
+
+// 🌊 NOAA LAND LOSS
+var noaaLayer = L.tileLayer(
   'https://services2.arcgis.com/C8EMgrsFcRFL6LrL/arcgis/rest/services/South_Louisiana_Land_Loss_1932_to_2010/MapServer/tile/{z}/{y}/{x}',
   {
     opacity: 0.7,
@@ -70,6 +62,8 @@
   }
 ).addTo(map);
 
+
+// 🔮 FUTURE LAND CHANGE
 var futureLandChangeLayer = L.tileLayer(
   'https://tiles.arcgis.com/tiles/XG15cJAlne2vxtgt/arcgis/rest/services/Land_Change___Future_With_Plan___20_Years_WTL1/MapServer/tile/{z}/{y}/{x}',
   {
@@ -78,6 +72,8 @@ var futureLandChangeLayer = L.tileLayer(
   }
 );
 
+
+// 🌿 RESTORATION PROJECTS
 var restorationLayer = L.tileLayer(
   'https://cimsgeo3.coastal.louisiana.gov/arcgis/rest/services/mp_viewer_2017/Projects/MapServer/tile/{z}/{y}/{x}',
   {
@@ -86,99 +82,17 @@ var restorationLayer = L.tileLayer(
   }
 );
 
+
+// 🌊 FEMA FLOOD ZONES
 var floodLayer = L.esri.dynamicMapLayer({
   url: 'https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer',
   opacity: 0.6
 });
 
-    fetch('data/landloss.geojson')
-      .then(response => response.json())
-      .then(data => landLossLayer.addData(data));
 
-    var restorationLayer = L.geoJSON(null, {
-      style: {
-        color: "green",
-        weight: 3,
-        fillColor: "green",
-        fillOpacity: 0.5
-      },
-      onEachFeature: function(feature, layer) {
-        layer.bindPopup(
-          "<b>" + feature.properties.name + "</b><br>" +
-          "Type: " + feature.properties.type + "<br>" +
-          "Status: " + feature.properties.status
-        );
-      }
-    }).addTo(map);
 
-    fetch('data/restoration.geojson')
-      .then(response => response.json())
-      .then(data => restorationLayer.addData(data));
-
-    var floodLayer = L.geoJSON(null, {
-      style: {
-        color: "purple",
-        weight: 4,
-        fillColor: "purple",
-        fillOpacity: 1.7
-      },
-      onEachFeature: function(feature, layer) {
-        layer.bindPopup(
-          "<b>" + feature.properties.name + "</b><br>" +
-          "Risk: " + feature.properties.risk + "<br>" +
-          "Concern: " + feature.properties.concern
-        );
-      }
-    }).addTo(map);
-
-    fetch('data/flood.geojson')
-      .then(response => response.json())
-      .then(data => floodLayer.addData(data));
-   
-    var noaaLayer = L.tileLayer(
-  'https://services2.arcgis.com/C8EMgrsFcRFL6LrL/arcgis/rest/services/South_Louisiana_Land_Loss_1932_to_2010/MapServer/tile/{z}/{y}/{x}',
-  {
-    opacity: 1.7,
-    attribution: 'NOAA / USGS Land Loss'
-  }
-).addTo(map);
-    var restorationLayer = L.tileLayer(
-  'https://cimsgeo3.coastal.louisiana.gov/arcgis/rest/services/CPRA_Projects/MapServer/tile/{z}/{y}/{x}',
-  {
-    opacity: 1.7,
-    attribution: 'CPRA Restoration Projects'
-  }
-);
-    var futureLandChangeLayer = L.tileLayer.wms(
-  "https://cimsgeo3.coastal.louisiana.gov/arcgis/services/mp_viewer_2017/Land_Change/MapServer/WMSServer",
-  {
-    layers: "0",
-    format: "image/png",
-    transparent: true,
-    opacity: 1.9,
-    attribution: "Louisiana Coastal Protection & Restoration Authority"
-  }
-);
-    
-
-L.control.layers(null, overlayMaps).addTo(map);
-    var legend = L.control({ position: "bottomright" });
-
-legend.onAdd = function (map) {
-  var div = L.DomUtil.create("div", "info legend");
-
-  div.innerHTML += "<h4>Legend</h4>";
-  div.innerHTML += '<i style="background:red"></i> Land Loss<br>';
-  div.innerHTML += '<i style="background:black"></i> NOAA Raster';
-
-  return div;
-};
-
-legend.addTo(map);
-    futureLandChangeLayer.on("add", function () {
-  futureLandChangeLayer.bringToFront();
-});
-    var overlayMaps = {
+// 🔘 LAYER CONTROL
+var overlayMaps = {
   "NOAA Land Loss": noaaLayer,
   "Future Land Change": futureLandChangeLayer,
   "Restoration Projects": restorationLayer,
@@ -186,7 +100,27 @@ legend.addTo(map);
 };
 
 L.control.layers(null, overlayMaps).addTo(map);
-  </script>
+
+
+
+// 📊 LEGEND
+var legend = L.control({ position: "bottomright" });
+
+legend.onAdd = function () {
+  var div = L.DomUtil.create("div", "legend");
+
+  div.innerHTML += "<b>Legend</b><br>";
+  div.innerHTML += '<i style="background:orange; width:10px; height:10px; display:inline-block;"></i> NOAA Land Loss<br>';
+  div.innerHTML += '<i style="background:green; width:10px; height:10px; display:inline-block;"></i> Restoration Projects<br>';
+  div.innerHTML += '<i style="background:blue; width:10px; height:10px; display:inline-block;"></i> Future Land Change<br>';
+  div.innerHTML += '<i style="background:purple; width:10px; height:10px; display:inline-block;"></i> Flood Zones';
+
+  return div;
+};
+
+legend.addTo(map);
+
+</script>
 
 </body>
 </html>
