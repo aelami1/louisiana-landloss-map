@@ -128,19 +128,21 @@
     attribution: 'NOAA / USGS Land Loss'
   }
 ).addTo(map);
-    var futureLandChangeLayer = L.tileLayer(
-  'https://cimsgeo3.coastal.louisiana.gov/arcgis/rest/services/mp_viewer_2017/Land_Change/MapServer/tile/{z}/{y}/{x}',
+    var futureLandChangeLayer = L.tileLayer.wms(
+  "https://cimsgeo3.coastal.louisiana.gov/arcgis/services/mp_viewer_2017/Land_Change/MapServer/WMSServer",
   {
+    layers: "0",
+    format: "image/png",
+    transparent: true,
     opacity: 0.5,
-    attribution: 'NOAA / USGS Potential Future Land Change'
+    attribution: "Louisiana Coastal Protection & Restoration Authority"
   }
-).addTo(map);
+);
     var overlayMaps = {
   "Land Loss (Red)": landLossLayer,
   "Restoration (Green)": restorationLayer,
   "Flood Risk (Purple)": floodLayer,
   "NOAA Land Loss Raster": noaaLayer
-  "Potential Future Land Change": futureLandChangeLayer
 };
 
 L.control.layers(null, overlayMaps).addTo(map);
