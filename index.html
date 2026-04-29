@@ -1,117 +1,111 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Louisiana Land Loss Map</title>
+  <title>Louisiana Land Loss Map</title>
 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
 
-        #map {
-            height: 90vh;
-        }
+    h1 {
+      text-align: center;
+      margin: 10px;
+    }
 
-        h1 {
-            text-align: center;
-            margin: 10px;
-        }
+    p {
+      text-align: center;
+      margin-top: -5px;
+    }
 
-        p {
-            text-align: center;
-            margin-top: -5px;
-        }
-    </style>
+    #map {
+      height: 85vh;
+      width: 100%;
+    }
+  </style>
 </head>
+
 <body>
 
-<h1>Land Loss in Louisiana & Restoration Efforts</h1>
-<p>Explore coastal changes and environmental risk</p>
+  <h1>Land Loss in Louisiana & Restoration Efforts</h1>
+  <p>Explore coastal changes and environmental risk</p>
 
-<div id="map"></div>
+  <div id="map"></div>
 
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-<script>
-    // Initialize map centered on Louisiana
-    var map = L.map('map').setView([30.5, -91.5], 7);
+  <script>
+    var map = L.map('map').setView([30.0, -90.5], 7);
 
-    // Add basemap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
+      attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // Example marker (you will replace later with real data)
-    // Land loss layer
     var landLossLayer = L.geoJSON(null, {
-        style: {
-            color: "red",
-            weight: 3,
-            fillColor: "red",
-            fillOpacity: 0.5
-    },
-        onEachFeature: function (feature, layer) {
-            layer.bindPopup(
-                "<b>" + feature.properties.name + "</b><br>" +
-                "Risk: " + feature.properties.risk
-                );
-        }
+      style: {
+        color: "red",
+        weight: 3,
+        fillColor: "red",
+        fillOpacity: 0.5
+      },
+      onEachFeature: function(feature, layer) {
+        layer.bindPopup(
+          "<b>" + feature.properties.name + "</b><br>" +
+          "Risk: " + feature.properties.risk
+        );
+      }
     }).addTo(map);
 
-    fetch('/louisiana-landloss-map/data/landloss.geojson')
-        .then(response => response.json())
-        .then(data => landLossLayer.addData(data));
+    fetch('data/landloss.geojson')
+      .then(response => response.json())
+      .then(data => landLossLayer.addData(data));
 
-    //Restoration layer
     var restorationLayer = L.geoJSON(null, {
-        style: {
-            color: "green",
-            weight: 3,
-            fillColor: "green",
-            fillOpacity: 0.5
-        },
-        onEachFeature: function (feature, layer) {
-            layer.bindPopup(
-                "<b>" + feature.properties.name + "</b><br>" +
-                "Type: " + feature.properties.type + "<br>" +
-                "Status: " + feature.properties.status
-                );
-        }
-    });
+      style: {
+        color: "green",
+        weight: 3,
+        fillColor: "green",
+        fillOpacity: 0.5
+      },
+      onEachFeature: function(feature, layer) {
+        layer.bindPopup(
+          "<b>" + feature.properties.name + "</b><br>" +
+          "Type: " + feature.properties.type + "<br>" +
+          "Status: " + feature.properties.status
+        );
+      }
+    }).addTo(map);
 
-    fetch('/louisiana-landloss-map/data/restoration.geojson')
-        .then(response => response.json())
-        .then(data => restorationLayer.addData(data));
+    fetch('data/restoration.geojson')
+      .then(response => response.json())
+      .then(data => restorationLayer.addData(data));
 
-    // Flood risk layer
     var floodLayer = L.geoJSON(null, {
-        style: {
-            color: "blue",
-            weight: 3,
-            fillColor: "blue",
-            fillOpacity: 0.35
-        },
-        onEachFeature: function (feature, layer) {
-            layer.bindPopup(
-                "<b>" + feature.properties.name + "</b><br>" +
-                "Risk: " + feature.properties.risk + "<br>" +
-                "Concern: " + feature.properties.concern
-                );
-        }
-    ]);
+      style: {
+        color: "blue",
+        weight: 3,
+        fillColor: "blue",
+        fillOpacity: 0.35
+      },
+      onEachFeature: function(feature, layer) {
+        layer.bindPopup(
+          "<b>" + feature.properties.name + "</b><br>" +
+          "Risk: " + feature.properties.risk + "<br>" +
+          "Concern: " + feature.properties.concern
+        );
+      }
+    }).addTo(map);
 
-    fetch('/louisiana-landloss-map/data/flood.geojson')
-        .then(response => response.json())
-        .then(data => floodLayer.addData(data));
+    fetch('data/flood.geojson')
+      .then(response => response.json())
+      .then(data => floodLayer.addData(data));
+  </script>
 
-</script>
 </body>
 </html>
