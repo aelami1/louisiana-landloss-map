@@ -34,13 +34,28 @@
       line-height: 1.5em;
     }
   </style>
+  .slider-box {
+  text-align: center;
+  background: white;
+  padding: 8px;
+  font-size: 14px;
+}
+
+#timeSlider {
+  width: 250px;
+  vertical-align: middle;
+}
 </head>
 
 <body>
 
 <h1>Land Loss in Louisiana & Restoration Efforts</h1>
 <p>Explore coastal changes and environmental risk</p>
-
+<div class="slider-box">
+  <label for="timeSlider"><b>Land Change Time View:</b></label>
+  <input type="range" id="timeSlider" min="0" max="1" value="0">
+  <span id="timeLabel">Past Land Loss: 1932–2010</span>
+</div>
 <div id="map"></div>
 
 <script>
@@ -57,7 +72,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 var noaaLayer = L.tileLayer(
   'https://services2.arcgis.com/C8EMgrsFcRFL6LrL/arcgis/rest/services/South_Louisiana_Land_Loss_1932_to_2010/MapServer/tile/{z}/{y}/{x}',
   {
-    opacity: 0.7,
+    opacity: 1.7,
     attribution: 'NOAA / USGS Land Loss'
   }
 ).addTo(map);
@@ -67,7 +82,7 @@ var noaaLayer = L.tileLayer(
 var futureLandChangeLayer = L.tileLayer(
   'https://tiles.arcgis.com/tiles/XG15cJAlne2vxtgt/arcgis/rest/services/Land_Change___Future_With_Plan___20_Years_WTL1/MapServer/tile/{z}/{y}/{x}',
   {
-    opacity: 0.7,
+    opacity: 1.7,
     attribution: 'CPRA Future Land Change'
   }
 );
@@ -77,7 +92,7 @@ var futureLandChangeLayer = L.tileLayer(
 var restorationLayer = L.tileLayer(
   'https://cimsgeo3.coastal.louisiana.gov/arcgis/rest/services/mp_viewer_2017/Projects/MapServer/tile/{z}/{y}/{x}',
   {
-    opacity: 0.8,
+    opacity: 1.8,
     attribution: 'CPRA Restoration Projects'
   }
 );
@@ -86,7 +101,7 @@ var restorationLayer = L.tileLayer(
 // 🌊 FEMA FLOOD ZONES
 var floodLayer = L.esri.dynamicMapLayer({
   url: 'https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer',
-  opacity: 0.6
+  opacity: 1.6
 });
 
 
@@ -119,7 +134,20 @@ legend.onAdd = function () {
 };
 
 legend.addTo(map);
+var timeSlider = document.getElementById("timeSlider");
+var timeLabel = document.getElementById("timeLabel");
 
+timeSlider.addEventListener("input", function () {
+  if (this.value == 0) {
+    map.addLayer(noaaLayer);
+    map.removeLayer(futureLandChangeLayer);
+    timeLabel.textContent = "Past Land Loss: 1932–2010";
+  } else {
+    map.removeLayer(noaaLayer);
+    map.addLayer(futureLandChangeLayer);
+    timeLabel.textContent = "Projected Future Land Change";
+  }
+});
 </script>
 
 </body>
