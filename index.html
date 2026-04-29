@@ -111,20 +111,7 @@
     fetch('data/flood.geojson')
         .then(response => response.json())
         .then(data => floodLayer.addData(data));
-            style: {
-                color: "red",
-                fillColor: "orange",
-                fillOpacity: 0.5
-            },
-            onEachFeature: function (feature, layer) {
-                layer.bindPopup(
-                    "<b>" + feature.properties.name + "</b><br>Risk: " + feature.properties.risk
-                    );
-            }
-        }).addTo(map);
-    });
 
 </script>
-
 </body>
 </html>
