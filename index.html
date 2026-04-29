@@ -45,7 +45,17 @@
   width: 250px;
   vertical-align: middle;
 }
-  
+  .gallery {
+  text-align: center;
+  padding: 20px;
+  background-color: #d4edda; /* optional green background */
+}
+
+.gallery img {
+  width: 250px;
+  margin: 10px;
+  border-radius: 10px;
+}
   </style>
   
 </head>
@@ -64,7 +74,14 @@
   <span id="timeLabel">Historical Land Loss: 1932–2010</span>
 </div>
 <div id="map"></div>
+<div class="gallery">
+  <h2>Affected Areas</h2>
 
+  <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Louisiana_wetlands.jpg">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Barataria_Basin.jpg">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Mississippi_Delta.jpg">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/0/0f/Atchafalaya_Delta.jpg">
+</div>
 <script>
   
 var map = L.map('map').setView([29.5, -90.5], 7);
