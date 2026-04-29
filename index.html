@@ -46,6 +46,14 @@
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
+    // NOAA Land Loss Tile Layer
+var noaaLayer = L.tileLayer(
+  'https://services2.arcgis.com/C8EMgrsFcRFL6LrL/arcgis/rest/services/South_Louisiana_Land_Loss_1932_to_2010/MapServer/tile/{z}/{y}/{x}',
+  {
+    opacity: 0.5,
+    attribution: 'NOAA / USGS Land Loss'
+  }
+).addTo(map);
 
     var landLossLayer = L.geoJSON(null, {
       style: {
