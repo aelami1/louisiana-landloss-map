@@ -51,7 +51,7 @@
 
     // Example marker (you will replace later with real data)
     // Land loss layer
-    var landlosslayer = L.geoJSON(null, {
+    var landLosslayer = L.geoJSON(null, {
         style: {
             color: "red",
             weight: 3,
@@ -111,9 +111,6 @@
     fetch('data/flood.geojson')
         .then(response => response.json())
         .then(data => floodLayer.addData(data));
-    .then(response => response.json())
-    .then(data => {
-        L.geoJSON(data, {
             style: {
                 color: "red",
                 fillColor: "orange",
