@@ -66,7 +66,7 @@
         }
     }).addTo(map);
 
-    fetch('data/landloss.geojson')
+    fetch('/louisiana-landloss-map/data/landloss.geojson')
         .then(response => response.json())
         .then(data => landLossLayer.addData(data));
 
@@ -87,7 +87,7 @@
         }
     });
 
-    fetch('data/restoration.geojson')
+    fetch('/louisiana-landloss-map/data/restoration.geojson')
         .then(response => response.json())
         .then(data => restorationLayer.addData(data));
 
@@ -108,7 +108,7 @@
         }
     ]);
 
-    fetch('data/flood.geojson')
+    fetch('/louisiana-landloss-map/data/flood.geojson')
         .then(response => response.json())
         .then(data => floodLayer.addData(data));
 
