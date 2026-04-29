@@ -51,12 +51,12 @@
 
     // Example marker (you will replace later with real data)
     // Land loss layer
-    var landLosslayer = L.geoJSON(null, {
+    var landLossLayer = L.geoJSON(null, {
         style: {
             color: "red",
             weight: 3,
-            fillColor: "red"
-                fillOpacity: 0.5
+            fillColor: "red",
+            fillOpacity: 0.5
     },
         onEachFeature: function (feature, layer) {
             layer.bindPopup(
@@ -71,7 +71,7 @@
         .then(data => landLossLayer.addData(data));
 
     //Restoration layer
-    var restorationLayer = L.geojson(null, {
+    var restorationLayer = L.geoJSON(null, {
         style: {
             color: "green",
             weight: 3,
