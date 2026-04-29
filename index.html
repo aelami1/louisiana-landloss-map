@@ -113,6 +113,14 @@
     attribution: 'NOAA / USGS Land Loss'
   }
 ).addTo(map);
+    var overlayMaps = {
+  "Land Loss (Red)": landLossLayer,
+  "Restoration (Green)": restorationLayer,
+  "Flood Risk (Blue)": floodLayer,
+  "NOAA Land Loss Raster": noaaLayer
+};
+
+L.control.layers(null, overlayMaps).addTo(map);
   </script>
 
 </body>
