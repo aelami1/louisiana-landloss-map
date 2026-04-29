@@ -62,7 +62,34 @@
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
+    var noaaLayer = L.tileLayer(
+  'https://services2.arcgis.com/C8EMgrsFcRFL6LrL/arcgis/rest/services/South_Louisiana_Land_Loss_1932_to_2010/MapServer/tile/{z}/{y}/{x}',
+  {
+    opacity: 0.7,
+    attribution: 'NOAA / USGS Land Loss'
+  }
+).addTo(map);
 
+var futureLandChangeLayer = L.tileLayer(
+  'https://tiles.arcgis.com/tiles/XG15cJAlne2vxtgt/arcgis/rest/services/Land_Change___Future_With_Plan___20_Years_WTL1/MapServer/tile/{z}/{y}/{x}',
+  {
+    opacity: 0.7,
+    attribution: 'CPRA Future Land Change'
+  }
+);
+
+var restorationLayer = L.tileLayer(
+  'https://cimsgeo3.coastal.louisiana.gov/arcgis/rest/services/mp_viewer_2017/Projects/MapServer/tile/{z}/{y}/{x}',
+  {
+    opacity: 0.8,
+    attribution: 'CPRA Restoration Projects'
+  }
+);
+
+var floodLayer = L.esri.dynamicMapLayer({
+  url: 'https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer',
+  opacity: 0.6
+});
 
     fetch('data/landloss.geojson')
       .then(response => response.json())
@@ -132,11 +159,7 @@
     attribution: "Louisiana Coastal Protection & Restoration Authority"
   }
 );
-    var overlayMaps = {
-  "NOAA Land Loss Raster": noaaLayer,
-  "Future Land Change (CPRA)": futureLandChangeLayer,
-  "Restoration Projects": restorationLayer
-};
+    
 
 L.control.layers(null, overlayMaps).addTo(map);
     var legend = L.control({ position: "bottomright" });
@@ -146,8 +169,6 @@ legend.onAdd = function (map) {
 
   div.innerHTML += "<h4>Legend</h4>";
   div.innerHTML += '<i style="background:red"></i> Land Loss<br>';
-  div.innerHTML += '<i style="background:green"></i> Restoration<br>';
-  div.innerHTML += '<i style="background:purple"></i> Flood Risk<br>';
   div.innerHTML += '<i style="background:black"></i> NOAA Raster';
 
   return div;
@@ -157,6 +178,14 @@ legend.addTo(map);
     futureLandChangeLayer.on("add", function () {
   futureLandChangeLayer.bringToFront();
 });
+    var overlayMaps = {
+  "NOAA Land Loss": noaaLayer,
+  "Future Land Change": futureLandChangeLayer,
+  "Restoration Projects": restorationLayer,
+  "FEMA Flood Zones": floodLayer
+};
+
+L.control.layers(null, overlayMaps).addTo(map);
   </script>
 
 </body>
