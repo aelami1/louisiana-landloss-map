@@ -121,6 +121,21 @@
 };
 
 L.control.layers(null, overlayMaps).addTo(map);
+    var legend = L.control({ position: "bottomright" });
+
+legend.onAdd = function (map) {
+  var div = L.DomUtil.create("div", "info legend");
+
+  div.innerHTML += "<h4>Legend</h4>";
+  div.innerHTML += '<i style="background:red"></i> Land Loss<br>';
+  div.innerHTML += '<i style="background:green"></i> Restoration<br>';
+  div.innerHTML += '<i style="background:yellow"></i> Flood Risk<br>';
+  div.innerHTML += '<i style="background:black"></i> NOAA Raster';
+
+  return div;
+};
+
+legend.addTo(map);
   </script>
 
 </body>
