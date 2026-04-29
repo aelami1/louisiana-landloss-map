@@ -103,9 +103,9 @@
 
     var floodLayer = L.geoJSON(null, {
       style: {
-        color: "yellow",
+        color: "purple",
         weight: 4,
-        fillColor: "yellow",
+        fillColor: "purple",
         fillOpacity: 0.7
       },
       onEachFeature: function(feature, layer) {
@@ -131,7 +131,7 @@
     var overlayMaps = {
   "Land Loss (Red)": landLossLayer,
   "Restoration (Green)": restorationLayer,
-  "Flood Risk (Yellow)": floodLayer,
+  "Flood Risk (Purple)": floodLayer,
   "NOAA Land Loss Raster": noaaLayer
 };
 
@@ -144,7 +144,7 @@ legend.onAdd = function (map) {
   div.innerHTML += "<h4>Legend</h4>";
   div.innerHTML += '<i style="background:red"></i> Land Loss<br>';
   div.innerHTML += '<i style="background:green"></i> Restoration<br>';
-  div.innerHTML += '<i style="background:yellow"></i> Flood Risk<br>';
+  div.innerHTML += '<i style="background:purple"></i> Flood Risk<br>';
   div.innerHTML += '<i style="background:black"></i> NOAA Raster';
 
   return div;
